@@ -19,6 +19,7 @@
     },
     "autoload": {
         "psr-4": {
+            "Modules\\": "modules/",
             "Vanthink\\Modules\\": "src/"
         }
     },
