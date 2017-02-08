@@ -1,0 +1,47 @@
+<?php
+
+namespace {{path}}\{{namespace}}\Providers;
+
+use Vanthink\Modules\Modules;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
+use Vanthink\Modules\Helper\Helper;
+use Vanthink\Modules\Providers\RouteServiceProvider as ServiceProvider;
+
+class RouteServiceProvider extends ServiceProvider
+{
+	/**
+	 * The controller namespace for the module.
+	 *
+	 * @var string|null
+	 */
+	protected $namespace = '{{path}}\{{namespace}}\Http\Controllers';
+
+	/**
+	 * Define your module's route model bindings, pattern filters, etc.
+	 *
+	 * @param  \Illuminate\Routing\Router  $router
+	 * @return void
+	 */
+	public function boot(Router $router)
+	{
+		parent::boot($router);
+
+		//
+	}
+
+	/**
+	 * Define the routes for the module.
+	 *
+	 * @param  \Illuminate\Routing\Router $router
+	 * @return void
+	 */
+	public function map(Request $request, Helper $helper, Modules $modules, Router $router)
+  	{
+  		$version         = $helper->getVersion($request, $modules,'{{slug}}');
+  		$this->namespace = $this->namespace.'\v'.$version;
+			$router->group(['namespace'  => $this->namespace], function($router) {
+				require (config('modules.path').'/{{slug}}/Http/routes.php');
+		});
+	}
+}
