@@ -6,7 +6,7 @@
     "authors": [
         {
             "name": "LuminEe",
-            "email": ""
+            "email": "lumineeatvanthink@163.com"
         }
     ],
     "require": {
@@ -20,11 +20,6 @@
     "autoload": {
         "psr-4": {
             "Vanthink\\Modules\\": "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.2-dev"
         }
     },
     "suggest": {
