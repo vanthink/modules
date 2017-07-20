@@ -2,8 +2,8 @@
 
 namespace Vanthink\Modules\Helper;
 
-use Vanthink\Modules\Modules;
 use Illuminate\Http\Request;
+use Vanthink\Modules\Modules;
 
 class Helper
 {
@@ -31,12 +31,12 @@ class Helper
         $version = str_replace('.', '_', $version);
         return $version;
     }
-    
+
     public function getAvailableVersion(Request $request, Modules $modules, $router, $module_name, $namespase)
     {
         $version  = $request->header('version');
         $versions = $modules->get($module_name.'::version');
-        
+
         $r_versions = array_reverse($versions);
         if (!$version) {
             $version = $r_versions[0];
@@ -57,7 +57,7 @@ class Helper
         $version = str_replace('.', '_', $version);
         return $version;
     }
-    
+
     public function checkActionExists($request, $router, $namespace)
     {
         try {
