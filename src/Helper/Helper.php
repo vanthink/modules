@@ -15,7 +15,7 @@ class Helper
             $r_versions = array_reverse($versions);
             if (!$version) {
                 $version = $r_versions[0];
-            }else {
+            } else {
                 for ($i = 0; $i < count($r_versions); $i++) {
                     if (version_compare($version, $r_versions[$i], '<')) {
                         continue;
@@ -31,34 +31,33 @@ class Helper
         $version = str_replace('.', '_', $version);
         return $version;
     }
-
+    
     public function getAvailableVersion(Request $request, Modules $modules, $router, $module_name, $namespase)
     {
         $version  = $request->header('version');
         $versions = $modules->get($module_name.'::version');
-
+        
         $r_versions = array_reverse($versions);
         if (!$version) {
             $version = $r_versions[0];
-        } else {
-            for ($i = 0; $i < count($r_versions); $i++) {
-                if (version_compare($version, $r_versions[$i], '<')) {
-                    continue;
-                }
-                $version = $r_versions[$i];
-                if (!$this->checkActionExists($request, $router, $namespase.'\v'.str_replace('.', '_', $version))) {
-                    continue;
-                }
-                break;
+        }
+        for ($i = 0; $i < count($r_versions); $i++) {
+            if (version_compare($version, $r_versions[$i], '<')) {
+                continue;
             }
-            if (!in_array($version, $versions)) {
-                $version = $versions[0];
+            $version = $r_versions[$i];
+            if (!$this->checkActionExists($request, $router, $namespase.'\v'.str_replace('.', '_', $version))) {
+                continue;
             }
+            break;
+        }
+        if (!in_array($version, $versions)) {
+            $version = $versions[0];
         }
         $version = str_replace('.', '_', $version);
         return $version;
     }
-
+    
     public function checkActionExists($request, $router, $namespace)
     {
         try {
