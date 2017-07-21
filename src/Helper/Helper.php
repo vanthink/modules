@@ -60,6 +60,7 @@ class Helper
 
     public function checkActionExists($request, $router, $namespace)
     {
+        if ($request->method() == 'OPTIONS') return false;
         try {
             $action_name = $router->getRoutes()->match($request)->getActionName();
         } catch (\Exception $e) {
