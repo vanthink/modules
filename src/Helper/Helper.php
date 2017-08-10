@@ -31,12 +31,12 @@ class Helper
         $version = str_replace('.', '_', $version);
         return $version;
     }
-
+    
     public function getAvailableVersion(Request $request, Modules $modules, $router, $module_name, $namespase)
     {
         $version  = $request->header('version');
         $versions = $modules->get($module_name.'::version');
-
+        
         $r_versions = array_reverse($versions);
         if (!$version) {
             $version = $r_versions[0];
@@ -57,7 +57,35 @@ class Helper
         $version = str_replace('.', '_', $version);
         return $version;
     }
-
+    
+    public function getAvailableController($request, $controller, $method)
+    {
+        $version  = $request->header('version');
+        $module   = explode('/', $request->getPathInfo())[env('ROUTE_MODULE_INDEX', 2)];
+        $versions = \Module::get($module.'::version');
+        
+        $r_versions = array_reverse($versions);
+        if (!$version) {
+            $version = $r_versions[0];
+        }
+        for ($i = 0; $i < count($r_versions); $i++) {
+            if (version_compare($version, $r_versions[$i], '<')) {
+                continue;
+            }
+            $version   = $r_versions[$i];
+            $new_space = str_replace('.', '_', $version);
+            if (!method_exists(preg_replace('/[0-9_]+/', $new_space, $controller), $method)) {
+                continue;
+            }
+            break;
+        }
+        if (!in_array($version, $versions)) {
+            $version = $versions[0];
+        }
+        $version = str_replace('.', '_', $version);
+        return preg_replace('/[0-9_]+/', $version, $controller);
+    }
+    
     public function checkActionExists($request, $router, $namespace)
     {
         try {
