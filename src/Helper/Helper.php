@@ -61,8 +61,8 @@ class Helper
     public function getAvailableController($request, $controller, $method)
     {
         $version  = $request->header('version');
-        $module   = explode('/', $request->getPathInfo())[env('ROUTE_MODULE_INDEX', 2)];
-        $versions = \Module::get($module.'::version');
+        $module   = explode('\\', $controller)[env('CONTROLLER_MODULE_INDEX', 1)];
+        $versions = \Module::get(strtolower($module).'::version');
         
         $r_versions = array_reverse($versions);
         if (!$version) {
