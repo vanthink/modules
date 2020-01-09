@@ -58,7 +58,7 @@ class ModuleMigrateCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->prepareDatabase();
 

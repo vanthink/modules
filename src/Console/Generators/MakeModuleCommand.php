@@ -107,7 +107,7 @@ class MakeModuleCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $this->container['slug']        = Str::slug($this->argument('slug'));
         $this->container['name']        = Str::studly($this->container['slug']);
